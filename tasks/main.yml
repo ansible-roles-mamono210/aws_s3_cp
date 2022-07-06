@@ -1,0 +1,35 @@
+---
+- name: Set AWS credentials to variables
+  ansible.builtin.set_fact:
+    env_aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    env_aws_secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+    env_aws_session_token: "{{ lookup('env', 'AWS_SESSION_TOKEN') }}"
+
+- name: Simple PUT operation with AWS credentials passed by environment variables
+  amazon.aws.aws_s3:
+    bucket: '{{ s3_bucket }}'
+    mode: put
+    object: '{{ s3_object_name }}'
+    src: "{{ upload_file_path }}"
+  environment:
+    AWS_ACCESS_KEY_ID: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    AWS_SECRET_ACCESS_KEY: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+    AWS_SESSION_TOKEN: "{{ lookup('env', 'AWS_SESSION_TOKEN') }}"
+  when:
+    - env_aws_access_key is defined
+    - env_aws_access_key | length > 0
+    - env_aws_secret_key is defined
+    - env_aws_secret_key | length > 0
+
+- name: Simple PUT operation
+  amazon.aws.aws_s3:
+    aws_access_key: '{{ aws_access_key_id | default(omit) }}'
+    aws_secret_key: '{{ aws_secret_access_key | default(omit) }}'
+    bucket: '{{ s3_bucket }}'
+    mode: put
+    object: '{{ s3_object_name }}'
+    security_token: '{{ aws_security_token | default(omit) }}'
+    src: "{{ upload_file_path }}"
+  when:
+    - env_aws_access_key | length == 0
+    - env_aws_secret_key | length == 0

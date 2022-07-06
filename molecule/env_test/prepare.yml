@@ -1,0 +1,28 @@
+---
+- name: Prepare
+  become: true
+  hosts: all
+  vars:
+    ansible_user: ansible
+
+  roles:
+    - role: mamono210.epel
+    - role: mamono210.aws_s3_bootstrap
+
+  tasks:
+    - name: Create directory for creating test text file
+      ansible.builtin.file:
+        path: "/home/ansible/test_file"
+        state: directory
+        mode: '0777'
+        owner: '{{ ansible_user }}'
+        group: '{{ ansible_user }}'
+
+    - name: Create test text file
+      ansible.builtin.copy:
+        dest: "/home/{{ ansible_user }}/test_file/{{ item.local_file_name }}"
+        content: |
+          {{ item.test_string }}
+      loop: "{{ molecule_yml.platforms }}"
+      loop_control:
+        index_var: index

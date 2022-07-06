@@ -1,0 +1,38 @@
+---
+argument_specs:
+  main:
+    short_description: Copy a file in the remote system to AWS S3.
+    description:
+    author: mamono210
+    options:
+
+      aws_access_key_id:
+        description: AWS access key.
+        type: str
+
+      aws_region:
+        description: The AWS region to use.
+        type: str
+
+      aws_secret_access_key:
+        description: AWS secret key.
+        type: str
+
+      aws_security_token:
+        description: AWS session token.
+        type: str
+
+      s3_bucket:
+        description: S3 Bucket name.
+        required: yes
+        type: str
+
+      s3_object_name:
+        description: Keyname of the object inside the bucket.
+        required: yes
+        type: str
+
+      upload_file_path:
+        description: The local file name to be uploaded to S3
+        required: yes
+        type: str
