@@ -19,10 +19,12 @@
         group: '{{ ansible_user }}'
 
     - name: Create test text file
-      ansible.builtin.copy:
+      ansible.builtin.template:
+        src: source.template
         dest: "/home/{{ ansible_user }}/test_file/{{ item.local_file_name }}"
-        content: |
-          {{ item.test_string }}
+        mode: '0777'
+        owner: '{{ ansible_user }}'
+        group: '{{ ansible_user }}'
       loop: "{{ molecule_yml.platforms }}"
       loop_control:
         index_var: index
