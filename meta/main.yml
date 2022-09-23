@@ -5,7 +5,7 @@ galaxy_info:
   description: Put a single file from local to AWS S3
   company: no name
   license: "license (BSD, MIT)"
-  min_ansible_version: 6
+  min_ansible_version: 6.0.0
   platforms:
     - name: EL
       versions:
