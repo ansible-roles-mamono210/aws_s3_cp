@@ -7,7 +7,7 @@
 
   roles:
     - role: mamono210.epel
-    - role: mamono210.aws_s3_bootstrap
+    - role: mamono210.aws_bootstrap
 
   tasks:
     - name: Create directory for creating test text file
