@@ -28,7 +28,7 @@
     bucket: '{{ s3_bucket }}'
     mode: put
     object: '{{ s3_object_name }}'
-    security_token: '{{ aws_security_token | default(omit) }}'
+    session_token: '{{ aws_session_token | default(omit) }}'
     src: "{{ upload_file_path }}"
   when:
     - env_aws_access_key | length == 0
